@@ -9,7 +9,7 @@ resource "aws_lb" "app_lb" {
   idle_timeout               = 60
 
   tags = {
-    Name = "app2-load-balancer-${var.environment}"
+    Name = "app3-load-balancer-${var.environment}"
   }
 }
 
