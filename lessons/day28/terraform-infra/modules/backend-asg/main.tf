@@ -19,7 +19,7 @@ resource "aws_launch_template" "backend" {
   name_prefix   = "${var.environment}-${var.project}-backend-"
   image_id      = var.ami_id != "" ? var.ami_id : data.aws_ami.ubuntu.id
   instance_type = var.instance_type
-  key_name      = var.key_name
+ //key_name      = var.key_name
 
   iam_instance_profile {
     name = var.iam_instance_profile

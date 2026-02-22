@@ -19,3 +19,13 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+variable "account_id" {
+  type        = string
+  default     = "476114123896"
+  description = "AWS Account ID for constructing ARNs"
+}
+variable "region" {
+  type        = string
+  default     = "us-east-1"
+  description = "AWS Region for constructing ARNs"
+}

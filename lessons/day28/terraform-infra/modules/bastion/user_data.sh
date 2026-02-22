@@ -12,6 +12,9 @@ apt-get install -y \
     git \
     htop \
     wget \
+    unzip \
+    curl \
+    ca-certificates \
     curl \
     jq \
     dnsutils

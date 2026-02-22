@@ -75,3 +75,32 @@ resource "aws_iam_instance_profile" "ec2_profile" {
     }
   )
 }
+//ssm Attach custom policy for SSM Session Manager access
+resource "aws_iam_policy" "bastion_ssm_start" {
+  name = "${var.environment}-${var.project}-bastion-ssm-start"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ssm:StartSession",
+          "ssm:DescribeSessions",
+          "ssm:GetConnectionStatus",
+          "ssm:TerminateSession"
+        ]
+        Resource = [
+  "arn:aws:ec2:${var.region}:${var.account_id}:instance/i-02eba0792e0b9caec",
+  "arn:aws:ec2:${var.region}:${var.account_id}:instance/i-00d836ff39d108c3d",
+   "arn:aws:ssm:${var.region}:${var.account_id}:document/SSM-SessionManagerRunShell"
+]
+      }
+    ]
+  })
+}
+// Attach custom policy for SSM Session Manager access
+resource "aws_iam_role_policy_attachment" "bastion_ssm_start_attach" {
+  role       = aws_iam_role.ec2_role.name
+  policy_arn = aws_iam_policy.bastion_ssm_start.arn
+}
