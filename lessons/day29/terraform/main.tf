@@ -117,19 +117,25 @@ data "http" "argocd_manifest" {
 }
 
 resource "kubectl_manifest" "argocd" {
-  for_each = { for doc in split("---", data.http.argocd_manifest.response_body) : 
-    sha256(doc) => doc if trimspace(doc) != "" 
+  for_each = {
+    for doc in split("---", data.http.argocd_manifest.response_body) :
+    sha256(doc) => doc if trimspace(doc) != ""
   }
 
-  yaml_body = each.value
+  yaml_body          = each.value
   override_namespace = "argocd"
-
+  server_side_apply  = true
+  force_conflicts   = true
   depends_on = [kubernetes_namespace_v1.argocd]
+
 }
+ 
+
 
 # Patch ArgoCD server service to LoadBalancer
 resource "null_resource" "patch_argocd_service" {
   provisioner "local-exec" {
+    interpreter = ["C:\\Program Files\\Git\\bin\\bash.exe", "-c"]
     command = <<-EOT
       # Update kubeconfig first
       aws eks update-kubeconfig --region ${var.region} --name ${module.eks.cluster_name}
