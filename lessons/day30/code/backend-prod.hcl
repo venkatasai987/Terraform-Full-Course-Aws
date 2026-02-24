@@ -1,4 +1,4 @@
-bucket       = "techtutorialswithpiyush-terraform-prodstate"
+bucket       = "techtutorialswithpiyush-terraform-devstate"
 key          = "prod/terraform.tfstate"
 region       = "us-east-1"
 use_lockfile = true

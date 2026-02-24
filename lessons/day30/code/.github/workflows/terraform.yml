@@ -23,9 +23,6 @@ jobs:
   terraform-plan:
     name: "Terraform Plan"
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: lessons/day30/code
     outputs:
       environment: ${{ steps.env-vars.outputs.environment }}
 
@@ -92,7 +89,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const planOutput = fs.readFileSync('lessons/day30/code/plan_output.txt', 'utf8');
+            const planOutput = fs.readFileSync('plan_output.txt', 'utf8');
 
             const output = `#### Terraform Plan for \`${{ env.ENVIRONMENT }}\` Environment 🌍
 
@@ -127,7 +124,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan-${{ env.ENVIRONMENT }}
-          path: lessons/day30/code/tfplan
+          path: tfplan
           retention-days: 5
           if-no-files-found: warn
 
@@ -136,9 +133,6 @@ jobs:
     needs: terraform-plan
     if: github.event_name == 'push' && needs.terraform-plan.result == 'success'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: lessons/day30/code
     environment: ${{ needs.terraform-plan.outputs.environment }}
 
     steps:
@@ -179,7 +173,6 @@ jobs:
         id: download
         with:
           name: tfplan-${{ env.ENVIRONMENT }}
-          path: lessons/day30/code
 
       - name: Check if Plan Exists
         id: check-plan
