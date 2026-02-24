@@ -2,12 +2,14 @@ name: Terraform Drift Detection
 
 on:
   schedule:
-    - cron: '0 8 * * *' # Runs every day at 8am UTC
+    - cron: '*/1 * * * *' # Runs every day at 8am UTC
   workflow_dispatch: # Allows manual triggering
 
 env:
   AWS_REGION: us-east-1
   TF_WORKING_DIR: lessons/day30/code
+  ENVIRONMENT: dev
+  
 
 jobs:
   drift-detection:
@@ -35,7 +37,8 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+           terraform init -reconfigure -backend-config="backend-${{ env.ENVIRONMENT }}.hcl"
 
       - name: Terraform Plan (Drift Detection)
         id: plan
