@@ -35,7 +35,8 @@ jobs:
           terraform_wrapper: false
 
       - name: Terraform Init
-        run: terraform init
+        run: |
+           terraform init -reconfigure -backend-config="backend-${{ env.ENVIRONMENT }}.hcl"
 
       - name: Terraform Plan (Drift Detection)
         id: plan
