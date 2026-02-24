@@ -8,6 +8,8 @@ on:
 env:
   AWS_REGION: us-east-1
   TF_WORKING_DIR: lessons/day30/code
+  ENVIRONMENT: dev
+  
 
 jobs:
   drift-detection:
