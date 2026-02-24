@@ -9,7 +9,7 @@ resource "aws_lb" "app_lb" {
   idle_timeout               = 60
 
   tags = {
-    Name = "app-load-balancer-3"
+    Name = "app-load-balancer-4"
   }
 }
 
